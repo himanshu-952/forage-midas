@@ -1,3 +1,4 @@
+
 package com.jpmc.midascore;
 
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,9 @@ public class TaskFourTests {
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("use your debugger to find out what wilbur's balance is after all transactions are processed");
+
         logger.info("kill this test once you find the answer");
+        System.out.println("----");
         while (true) {
             Thread.sleep(20000);
             logger.info("...");

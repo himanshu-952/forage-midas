@@ -1,48 +1,29 @@
 package com.jpmc.midascore.foundation;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction {
-    private long senderId;
-    private long recipientId;
-    private float amount;
+    private String id;
+    private double amount;
+    private String type;
 
-    public Transaction() {
-    }
+    public Transaction() {}
 
-    public Transaction(long senderId, long recipientId, float amount) {
-        this.senderId = senderId;
-        this.recipientId = recipientId;
+    public Transaction(String id, double amount, String type) {
+        this.id = id;
         this.amount = amount;
+        this.type = type;
     }
 
-    public long getSenderId() {
-        return senderId;
-    }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public void setSenderId(long senderId) {
-        this.senderId = senderId;
-    }
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
 
-    public long getRecipientId() {
-        return recipientId;
-    }
-
-    public void setRecipientId(long recipientId) {
-        this.recipientId = recipientId;
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 
     @Override
     public String toString() {
-        return "Transaction {senderId=" + senderId + ", recipientId=" + recipientId + ", amount=" + amount + "}";
+        return "Transaction{id='" + id + "', amount=" + amount + ", type='" + type + "'}";
     }
 }

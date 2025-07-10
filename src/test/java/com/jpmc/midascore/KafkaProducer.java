@@ -1,22 +1,36 @@
 package com.jpmc.midascore;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpmc.midascore.foundation.Transaction;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class KafkaProducer {
-    private final String topic;
-    private final KafkaTemplate<String, Transaction> kafkaTemplate;
 
-    public KafkaProducer(@Value("${general.kafka-topic}") String topic, KafkaTemplate<String, Transaction> kafkaTemplate) {
-        this.topic = topic;
-        this.kafkaTemplate = kafkaTemplate;
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    // ✅ Method for Task 2 - sends a sample transaction
+    public void sendTransaction() {
+        Transaction tx = new Transaction("123", 100.5, "credit");
+        String json = convertToJson(tx);
+        kafkaTemplate.send("test-transactions-topic", json);
     }
 
-    public void send(String transactionLine) {
-        String[] transactionData = transactionLine.split(", ");
-        kafkaTemplate.send(topic, new Transaction(Long.parseLong(transactionData[0]), Long.parseLong(transactionData[1]), Float.parseFloat(transactionData[2])));
+    // ✅ Additional method used in Task 4 - sends any string message
+    public void send(String jsonMessage) {
+        kafkaTemplate.send("test-transactions-topic", jsonMessage);
+    }
+
+    private String convertToJson(Transaction tx) {
+        try {
+            return objectMapper.writeValueAsString(tx);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to convert transaction to JSON", e);
+        }
     }
 }

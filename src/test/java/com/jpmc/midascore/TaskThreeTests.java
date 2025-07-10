@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+import com.jpmc.midascore.repository.UserRepository;
+import com.jpmc.midascore.entity.UserRecord;
 
 @SpringBootTest
 @DirtiesContext
@@ -16,6 +18,10 @@ public class TaskThreeTests {
 
     @Autowired
     private KafkaProducer kafkaProducer;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Autowired
     private UserPopulator userPopulator;
@@ -37,7 +43,11 @@ public class TaskThreeTests {
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("use your debugger to find out what waldorf's balance is after all transactions are processed");
+
         logger.info("kill this test once you find the answer");
+        UserRecord waldorf = userRepository.findByName("waldorf");
+        System.out.println("Waldorf's Final Balance: " + waldorf.getBalance());
+        System.out.println("---");
         while (true) {
             Thread.sleep(20000);
             logger.info("...");
